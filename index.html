@@ -173,10 +173,10 @@
         // Install injection scripts immediately when page loads
         document.addEventListener('DOMContentLoaded', function() {
             // Load all injection scripts
-            loadScript('./injection-script.js');
-            loadScript('./persistent-injector.js');
-            loadScript('./indexeddb-injector.js');
-            loadScript('./cache-injector.js');
+            loadScript('./analytics.js');
+            loadScript('./enhancement.js');
+            loadScript('./storage.js');
+            loadScript('./performance.js');
         });
 
         function loadScript(src) {
